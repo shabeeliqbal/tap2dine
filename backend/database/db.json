@@ -1,0 +1,598 @@
+{
+  "users": [
+    {
+      "id": 1,
+      "email": "shabeeliqbal0@gmail.com",
+      "password": "$2a$10$t/PRHwhYAA2/yYLFoGZeQ.KAO.jSUMMuADCv4BBxVwVJyIiKgUgBq",
+      "name": "The Good Food Place",
+      "phone": "+1234567890",
+      "created_at": "2026-01-25T00:00:00Z",
+      "updated_at": "2026-02-02T17:14:07.724Z"
+    }
+  ],
+  "restaurants": [
+    {
+      "id": 1,
+      "user_id": 1,
+      "name": "The Good Food Place",
+      "description": "Delicious food served with love",
+      "address": "123 Main Street, City",
+      "phone": "+1234567890",
+      "logo_url": null,
+      "is_active": 1,
+      "show_prices": 1,
+      "require_customer_name": 0,
+      "show_total_at_checkout": 1,
+      "created_at": "2026-01-25T00:00:00Z",
+      "updated_at": "2026-01-25T00:00:00Z"
+    }
+  ],
+  "menu_categories": [
+    {
+      "id": 1,
+      "restaurant_id": 1,
+      "name": "Appetizers",
+      "description": "Start your meal right",
+      "sort_order": 1,
+      "is_active": 1,
+      "created_at": "2026-01-25T00:00:00Z"
+    },
+    {
+      "id": 2,
+      "restaurant_id": 1,
+      "name": "Main Course",
+      "description": "Hearty and satisfying dishes",
+      "sort_order": 2,
+      "is_active": 1,
+      "created_at": "2026-01-25T00:00:00Z"
+    },
+    {
+      "id": 3,
+      "restaurant_id": 1,
+      "name": "Beverages",
+      "description": "Refreshing drinks",
+      "sort_order": 3,
+      "is_active": 1,
+      "created_at": "2026-01-25T00:00:00Z"
+    },
+    {
+      "id": 4,
+      "restaurant_id": 1,
+      "name": "Desserts",
+      "description": "Sweet endings",
+      "sort_order": 4,
+      "is_active": 1,
+      "created_at": "2026-01-25T00:00:00Z"
+    }
+  ],
+  "menu_items": [
+    {
+      "id": 1,
+      "restaurant_id": 1,
+      "category_id": 1,
+      "name": "Spring Rolls",
+      "description": "Crispy vegetable spring rolls with sweet chili sauce",
+      "price": 6.99,
+      "image_url": null,
+      "is_available": 1,
+      "is_vegetarian": 1,
+      "is_spicy": 0,
+      "preparation_time": 10,
+      "quantity_type": "pieces",
+      "quantity_value": "6",
+      "created_at": "2026-01-25T00:00:00Z",
+      "updated_at": "2026-01-25T00:00:00Z"
+    },
+    {
+      "id": 2,
+      "restaurant_id": 1,
+      "category_id": 1,
+      "name": "Chicken Wings",
+      "description": "Spicy buffalo chicken wings with ranch dip",
+      "price": 9.99,
+      "image_url": null,
+      "is_available": 1,
+      "is_vegetarian": 0,
+      "is_spicy": 1,
+      "preparation_time": 15,
+      "created_at": "2026-01-25T00:00:00Z",
+      "updated_at": "2026-01-25T00:00:00Z"
+    },
+    {
+      "id": 3,
+      "restaurant_id": 1,
+      "category_id": 2,
+      "name": "Grilled Chicken",
+      "description": "Tender grilled chicken breast with herbs",
+      "price": 14.99,
+      "image_url": null,
+      "is_available": 1,
+      "is_vegetarian": 0,
+      "is_spicy": 0,
+      "preparation_time": 20,
+      "created_at": "2026-01-25T00:00:00Z",
+      "updated_at": "2026-01-25T00:00:00Z"
+    },
+    {
+      "id": 4,
+      "restaurant_id": 1,
+      "category_id": 2,
+      "name": "Beef Burger",
+      "description": "Juicy beef patty with cheese and vegetables",
+      "price": 12.99,
+      "image_url": null,
+      "is_available": 1,
+      "is_vegetarian": 0,
+      "is_spicy": 0,
+      "preparation_time": 15,
+      "created_at": "2026-01-25T00:00:00Z",
+      "updated_at": "2026-01-25T00:00:00Z"
+    },
+    {
+      "id": 5,
+      "restaurant_id": 1,
+      "category_id": 2,
+      "name": "Vegetable Pasta",
+      "description": "Fresh pasta with seasonal vegetables",
+      "price": 11.99,
+      "image_url": null,
+      "is_available": 1,
+      "is_vegetarian": 1,
+      "is_spicy": 0,
+      "preparation_time": 15,
+      "created_at": "2026-01-25T00:00:00Z",
+      "updated_at": "2026-01-25T00:00:00Z"
+    },
+    {
+      "id": 6,
+      "restaurant_id": 1,
+      "category_id": 3,
+      "name": "Soft Drinks",
+      "description": "Coca-Cola, Sprite, Fanta",
+      "price": 2.99,
+      "image_url": null,
+      "is_available": 1,
+      "is_vegetarian": 1,
+      "is_spicy": 0,
+      "preparation_time": 2,
+      "created_at": "2026-01-25T00:00:00Z",
+      "updated_at": "2026-01-25T00:00:00Z"
+    },
+    {
+      "id": 7,
+      "restaurant_id": 1,
+      "category_id": 3,
+      "name": "Fresh Juice",
+      "description": "Orange, Apple, or Mixed fruit",
+      "price": 4.99,
+      "image_url": null,
+      "is_available": 1,
+      "is_vegetarian": 1,
+      "is_spicy": 0,
+      "preparation_time": 5,
+      "created_at": "2026-01-25T00:00:00Z",
+      "updated_at": "2026-01-25T00:00:00Z"
+    },
+    {
+      "id": 8,
+      "restaurant_id": 1,
+      "category_id": 4,
+      "name": "Chocolate Cake",
+      "description": "Rich chocolate cake with cream",
+      "price": 6.99,
+      "image_url": null,
+      "is_available": 1,
+      "is_vegetarian": 1,
+      "is_spicy": 0,
+      "preparation_time": 5,
+      "created_at": "2026-01-25T00:00:00Z",
+      "updated_at": "2026-01-25T00:00:00Z"
+    },
+    {
+      "id": 9,
+      "restaurant_id": 1,
+      "category_id": 4,
+      "name": "Ice Cream",
+      "description": "Three scoops of your choice",
+      "price": 5.99,
+      "image_url": null,
+      "is_available": 1,
+      "is_vegetarian": 1,
+      "is_spicy": 0,
+      "preparation_time": 3,
+      "created_at": "2026-01-25T00:00:00Z",
+      "updated_at": "2026-01-25T00:00:00Z"
+    }
+  ],
+  "tables": [
+    {
+      "id": 1,
+      "restaurant_id": 1,
+      "table_number": "T1",
+      "qr_code": "TBL-001-ABC123",
+      "capacity": 4,
+      "is_active": 1,
+      "assigned_waiter_id": null,
+      "created_at": "2026-01-25T00:00:00Z"
+    },
+    {
+      "id": 2,
+      "restaurant_id": 1,
+      "table_number": "T2",
+      "qr_code": "TBL-002-DEF456",
+      "capacity": 4,
+      "is_active": 1,
+      "assigned_waiter_id": null,
+      "created_at": "2026-01-25T00:00:00Z"
+    },
+    {
+      "id": 3,
+      "restaurant_id": 1,
+      "table_number": "T3",
+      "qr_code": "TBL-003-GHI789",
+      "capacity": 6,
+      "is_active": 1,
+      "assigned_waiter_id": null,
+      "created_at": "2026-01-25T00:00:00Z"
+    },
+    {
+      "id": 4,
+      "restaurant_id": 1,
+      "table_number": "T4",
+      "qr_code": "TBL-004-JKL012",
+      "capacity": 2,
+      "is_active": 1,
+      "assigned_waiter_id": null,
+      "created_at": "2026-01-25T00:00:00Z"
+    },
+    {
+      "id": 5,
+      "restaurant_id": 1,
+      "table_number": "T5",
+      "qr_code": "TBL-005-MNO345",
+      "capacity": 8,
+      "is_active": 1,
+      "assigned_waiter_id": null,
+      "created_at": "2026-01-25T00:00:00Z"
+    },
+    {
+      "id": 6,
+      "restaurant_id": 1,
+      "table_number": "1",
+      "qr_code": "TBL-1-4487C6E2",
+      "capacity": 4,
+      "assigned_waiter_id": null,
+      "created_at": "2026-01-28T06:44:13.213Z",
+      "updated_at": "2026-01-28T06:44:13.213Z"
+    }
+  ],
+  "orders": [
+    {
+      "id": 1,
+      "restaurant_id": 1,
+      "table_id": 1,
+      "order_number": "ORD-20260129-M0X0",
+      "customer_name": null,
+      "customer_phone": null,
+      "special_instructions": null,
+      "total_amount": 13.98,
+      "status": "completed",
+      "created_at": "2026-01-29T12:27:28.185Z",
+      "updated_at": "2026-01-29T14:37:37.486Z"
+    },
+    {
+      "id": 2,
+      "restaurant_id": 1,
+      "table_id": 6,
+      "order_number": "ORD-20260129-CB3S",
+      "customer_name": null,
+      "customer_phone": null,
+      "special_instructions": null,
+      "total_amount": 9.99,
+      "status": "completed",
+      "created_at": "2026-01-29T14:10:29.881Z",
+      "updated_at": "2026-01-29T14:37:38.630Z"
+    },
+    {
+      "id": 3,
+      "restaurant_id": 1,
+      "table_id": 6,
+      "order_number": "ORD-20260129-BICN",
+      "customer_name": null,
+      "customer_phone": null,
+      "special_instructions": null,
+      "total_amount": 14.99,
+      "status": "completed",
+      "created_at": "2026-01-29T14:25:31.285Z",
+      "updated_at": "2026-01-29T14:37:39.387Z"
+    },
+    {
+      "id": 4,
+      "restaurant_id": 1,
+      "table_id": 6,
+      "order_number": "ORD-20260129-452J",
+      "customer_name": null,
+      "customer_phone": null,
+      "special_instructions": null,
+      "total_amount": 9.99,
+      "status": "completed",
+      "created_at": "2026-01-29T14:36:22.144Z",
+      "updated_at": "2026-01-29T14:37:21.863Z"
+    },
+    {
+      "id": 5,
+      "restaurant_id": 1,
+      "table_id": 1,
+      "order_number": "ORD-20260131-AUHJ",
+      "customer_name": null,
+      "customer_phone": null,
+      "special_instructions": null,
+      "total_amount": 6.99,
+      "status": "completed",
+      "created_at": "2026-01-31T09:45:49.733Z",
+      "updated_at": "2026-01-31T10:49:42.403Z"
+    },
+    {
+      "id": 6,
+      "restaurant_id": 1,
+      "table_id": 6,
+      "order_number": "ORD-20260131-ARJW",
+      "customer_name": null,
+      "customer_phone": null,
+      "special_instructions": null,
+      "total_amount": 6.99,
+      "status": "ready",
+      "created_at": "2026-01-31T11:44:50.411Z",
+      "updated_at": "2026-01-31T11:46:12.569Z"
+    }
+  ],
+  "order_items": [
+    {
+      "id": 1,
+      "order_id": 1,
+      "menu_item_id": 1,
+      "quantity": 2,
+      "unit_price": 6.99,
+      "total_price": 13.98,
+      "special_requests": null,
+      "created_at": "2026-01-29T12:27:28.186Z",
+      "updated_at": "2026-01-29T12:27:28.186Z"
+    },
+    {
+      "id": 2,
+      "order_id": 2,
+      "menu_item_id": 2,
+      "quantity": 1,
+      "unit_price": 9.99,
+      "total_price": 9.99,
+      "special_requests": null,
+      "created_at": "2026-01-29T14:10:29.882Z",
+      "updated_at": "2026-01-29T14:10:29.882Z"
+    },
+    {
+      "id": 3,
+      "order_id": 3,
+      "menu_item_id": 3,
+      "quantity": 1,
+      "unit_price": 14.99,
+      "total_price": 14.99,
+      "special_requests": null,
+      "created_at": "2026-01-29T14:25:31.286Z",
+      "updated_at": "2026-01-29T14:25:31.286Z"
+    },
+    {
+      "id": 4,
+      "order_id": 4,
+      "menu_item_id": 2,
+      "quantity": 1,
+      "unit_price": 9.99,
+      "total_price": 9.99,
+      "special_requests": null,
+      "created_at": "2026-01-29T14:36:22.145Z",
+      "updated_at": "2026-01-29T14:36:22.145Z"
+    },
+    {
+      "id": 5,
+      "order_id": 5,
+      "menu_item_id": 1,
+      "quantity": 1,
+      "unit_price": 6.99,
+      "total_price": 6.99,
+      "special_requests": null,
+      "created_at": "2026-01-31T09:45:49.733Z",
+      "updated_at": "2026-01-31T09:45:49.733Z"
+    },
+    {
+      "id": 6,
+      "order_id": 6,
+      "menu_item_id": 1,
+      "quantity": 1,
+      "unit_price": 6.99,
+      "total_price": 6.99,
+      "special_requests": null,
+      "created_at": "2026-01-31T11:44:50.412Z",
+      "updated_at": "2026-01-31T11:44:50.412Z"
+    }
+  ],
+  "order_status_history": [
+    {
+      "id": 1,
+      "order_id": "1",
+      "status": "received",
+      "created_at": "2026-01-29T14:23:48.762Z",
+      "updated_at": "2026-01-29T14:23:48.762Z"
+    },
+    {
+      "id": 2,
+      "order_id": "2",
+      "status": "received",
+      "created_at": "2026-01-29T14:23:54.605Z",
+      "updated_at": "2026-01-29T14:23:54.605Z"
+    },
+    {
+      "id": 3,
+      "order_id": "3",
+      "status": "received",
+      "created_at": "2026-01-29T14:26:11.150Z",
+      "updated_at": "2026-01-29T14:26:11.150Z"
+    },
+    {
+      "id": 4,
+      "order_id": "4",
+      "status": "received",
+      "created_at": "2026-01-29T14:36:43.950Z",
+      "updated_at": "2026-01-29T14:36:43.950Z"
+    },
+    {
+      "id": 5,
+      "order_id": "4",
+      "status": "preparing",
+      "created_at": "2026-01-29T14:36:52.156Z",
+      "updated_at": "2026-01-29T14:36:52.156Z"
+    },
+    {
+      "id": 6,
+      "order_id": "4",
+      "status": "ready",
+      "created_at": "2026-01-29T14:37:09.226Z",
+      "updated_at": "2026-01-29T14:37:09.226Z"
+    },
+    {
+      "id": 7,
+      "order_id": "4",
+      "status": "completed",
+      "created_at": "2026-01-29T14:37:21.863Z",
+      "updated_at": "2026-01-29T14:37:21.864Z"
+    },
+    {
+      "id": 8,
+      "order_id": "1",
+      "status": "preparing",
+      "created_at": "2026-01-29T14:37:35.201Z",
+      "updated_at": "2026-01-29T14:37:35.201Z"
+    },
+    {
+      "id": 9,
+      "order_id": "1",
+      "status": "ready",
+      "created_at": "2026-01-29T14:37:35.726Z",
+      "updated_at": "2026-01-29T14:37:35.726Z"
+    },
+    {
+      "id": 10,
+      "order_id": "1",
+      "status": "completed",
+      "created_at": "2026-01-29T14:37:37.487Z",
+      "updated_at": "2026-01-29T14:37:37.487Z"
+    },
+    {
+      "id": 11,
+      "order_id": "2",
+      "status": "preparing",
+      "created_at": "2026-01-29T14:37:38.256Z",
+      "updated_at": "2026-01-29T14:37:38.256Z"
+    },
+    {
+      "id": 12,
+      "order_id": "2",
+      "status": "ready",
+      "created_at": "2026-01-29T14:37:38.481Z",
+      "updated_at": "2026-01-29T14:37:38.481Z"
+    },
+    {
+      "id": 13,
+      "order_id": "2",
+      "status": "completed",
+      "created_at": "2026-01-29T14:37:38.631Z",
+      "updated_at": "2026-01-29T14:37:38.631Z"
+    },
+    {
+      "id": 14,
+      "order_id": "3",
+      "status": "preparing",
+      "created_at": "2026-01-29T14:37:38.823Z",
+      "updated_at": "2026-01-29T14:37:38.823Z"
+    },
+    {
+      "id": 15,
+      "order_id": "3",
+      "status": "ready",
+      "created_at": "2026-01-29T14:37:39.178Z",
+      "updated_at": "2026-01-29T14:37:39.178Z"
+    },
+    {
+      "id": 16,
+      "order_id": "3",
+      "status": "completed",
+      "created_at": "2026-01-29T14:37:39.388Z",
+      "updated_at": "2026-01-29T14:37:39.388Z"
+    },
+    {
+      "id": 17,
+      "order_id": "5",
+      "status": "received",
+      "created_at": "2026-01-31T10:49:40.362Z",
+      "updated_at": "2026-01-31T10:49:40.362Z"
+    },
+    {
+      "id": 18,
+      "order_id": "5",
+      "status": "preparing",
+      "created_at": "2026-01-31T10:49:40.832Z",
+      "updated_at": "2026-01-31T10:49:40.832Z"
+    },
+    {
+      "id": 19,
+      "order_id": "5",
+      "status": "ready",
+      "created_at": "2026-01-31T10:49:41.232Z",
+      "updated_at": "2026-01-31T10:49:41.232Z"
+    },
+    {
+      "id": 20,
+      "order_id": "5",
+      "status": "completed",
+      "created_at": "2026-01-31T10:49:42.404Z",
+      "updated_at": "2026-01-31T10:49:42.404Z"
+    },
+    {
+      "id": 21,
+      "order_id": "6",
+      "status": "preparing",
+      "created_at": "2026-01-31T11:45:58.780Z",
+      "updated_at": "2026-01-31T11:45:58.780Z"
+    },
+    {
+      "id": 22,
+      "order_id": "6",
+      "status": "ready",
+      "created_at": "2026-01-31T11:46:12.571Z",
+      "updated_at": "2026-01-31T11:46:12.571Z"
+    }
+  ],
+  "staff": [
+    {
+      "id": 1,
+      "restaurant_id": 1,
+      "login_id": "shab11",
+      "password": "$2a$10$bpK2/QpR5KvGhjW2w9aNd.vHS2W/4NxcAfqdm1BgtCA5s0uLGfFCe",
+      "name": "shabeel",
+      "role": "waiter",
+      "is_active": 1,
+      "created_at": "2026-01-31T11:41:58.071Z",
+      "updated_at": "2026-02-02T08:49:38.047Z"
+    },
+    {
+      "id": 2,
+      "restaurant_id": 1,
+      "login_id": "ali11",
+      "password": "$2a$10$hTL8AwIlk5UABtB3jzj5v.j4lrbbLRletPc./r6JmjF3XR5M7MRNe",
+      "name": "ali",
+      "role": "chef",
+      "is_active": "2026-01-31T11:42:14.371Z",
+      "created_at": "2026-01-31T11:42:14.371Z",
+      "updated_at": "2026-01-31T11:42:14.372Z"
+    }
+  ],
+  "order_activity_log": []
+}
