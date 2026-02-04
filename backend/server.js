@@ -51,6 +51,15 @@ app.use('/api/restaurants', restaurantRoutes);
 app.use('/api/reports', reportsRoutes);
 app.use('/api/staff', staffRoutes);
 
+// Root route for cPanel health check
+app.get('/', (req, res) => {
+  res.json({ 
+    status: 'ok', 
+    message: 'tap2dine API is running',
+    timestamp: new Date().toISOString() 
+  });
+});
+
 // Health check
 app.get('/api/health', (req, res) => {
   res.json({ status: 'ok', timestamp: new Date().toISOString() });
@@ -108,7 +117,7 @@ app.use((req, res) => {
 });
 
 const PORT = process.env.PORT || 5000;
-const HOST = process.env.HOST || 'localhost';
+const HOST = process.env.HOST || '0.0.0.0';
 
 server.listen(PORT, HOST, () => {
   console.log(`🚀 Server running on http://${HOST}:${PORT}`);
