@@ -1,8 +1,8 @@
 import axios from 'axios';
 
-// Use relative URL so Next.js rewrites handle proxying to backend
-// This works with VS Code port forwarding and local network access
-const API_URL = '/api';
+// Use environment variable for API URL, fallback to relative URL for local dev
+// In production on cPanel, set NEXT_PUBLIC_API_URL to your backend URL
+const API_URL = process.env.NEXT_PUBLIC_API_URL || '/api';
 
 const api = axios.create({
   baseURL: API_URL,

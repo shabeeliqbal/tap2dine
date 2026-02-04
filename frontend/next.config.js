@@ -9,12 +9,12 @@ const nextConfig = {
         pathname: '/uploads/**',
       },
       {
-        protocol: 'http',
-        hostname: '192.168.1.102',
-        port: '5000',
+        protocol: 'https',
+        hostname: '**',
         pathname: '/uploads/**',
       },
     ],
+    unoptimized: process.env.NODE_ENV === 'production', // For cPanel compatibility
   },
   async rewrites() {
     // Use environment variable or fallback to localhost
@@ -23,6 +23,14 @@ const nextConfig = {
       {
         source: '/api/:path*',
         destination: `${backendUrl}/api/:path*`,
+      },
+      {
+        source: '/uploads/:path*',
+        destination: `${backendUrl}/uploads/:path*`,
+      },
+      {
+        source: '/socket.io/:path*',
+        destination: `${backendUrl}/socket.io/:path*`,
       },
     ];
   },
