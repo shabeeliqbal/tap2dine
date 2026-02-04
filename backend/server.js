@@ -116,20 +116,19 @@ app.use((req, res) => {
   });
 });
 
-// cPanel Passenger uses process.env.PORT or a socket
-// Also check for PASSENGER_BASE_URI
-const PORT = process.env.PORT || process.env.PASSENGER_PORT || 5000;
-const HOST = '0.0.0.0';
-
-// For cPanel Passenger compatibility
+// cPanel Phusion Passenger support
+// Passenger uses 'passenger' as a special socket path
 if (typeof(PhusionPassenger) !== 'undefined') {
   PhusionPassenger.configure({ autoInstall: false });
 }
 
-server.listen(PORT, HOST, () => {
-  console.log(`🚀 Server running on http://${HOST}:${PORT}`);
+const PORT = process.env.PORT || 5000;
+
+// Listen on 'passenger' socket if available (cPanel), otherwise use PORT
+server.listen(typeof(PhusionPassenger) !== 'undefined' ? 'passenger' : PORT, () => {
+  console.log(`🚀 Server running`);
   console.log(`📱 Environment: ${process.env.NODE_ENV || 'development'}`);
-  console.log(`🔧 PORT env: ${process.env.PORT}, Using: ${PORT}`);
+  console.log(`🔧 Passenger: ${typeof(PhusionPassenger) !== 'undefined' ? 'YES' : 'NO'}`);
 });
 
 module.exports = { app, io };
