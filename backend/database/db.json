@@ -345,6 +345,34 @@
       "status": "ready",
       "created_at": "2026-01-31T11:44:50.411Z",
       "updated_at": "2026-01-31T11:46:12.569Z"
+    },
+    {
+      "id": 7,
+      "restaurant_id": 1,
+      "table_id": 6,
+      "order_number": "ORD-20260205-PDIG",
+      "customer_name": null,
+      "customer_phone": null,
+      "special_instructions": null,
+      "total_amount": 9.99,
+      "status": "ready",
+      "device_info": "Windows PC - Chrome",
+      "created_at": "2026-02-05T09:20:14.135Z",
+      "updated_at": "2026-02-05T09:20:39.307Z"
+    },
+    {
+      "id": 8,
+      "restaurant_id": 1,
+      "table_id": 6,
+      "order_number": "ORD-20260205-7X2W",
+      "customer_name": null,
+      "customer_phone": null,
+      "special_instructions": null,
+      "total_amount": 6.99,
+      "status": "completed",
+      "device_info": "Windows PC - Chrome",
+      "created_at": "2026-02-05T09:22:04.550Z",
+      "updated_at": "2026-02-05T09:22:25.842Z"
     }
   ],
   "order_items": [
@@ -413,6 +441,28 @@
       "special_requests": null,
       "created_at": "2026-01-31T11:44:50.412Z",
       "updated_at": "2026-01-31T11:44:50.412Z"
+    },
+    {
+      "id": 7,
+      "order_id": 7,
+      "menu_item_id": 2,
+      "quantity": 1,
+      "unit_price": 9.99,
+      "total_price": 9.99,
+      "special_requests": null,
+      "created_at": "2026-02-05T09:20:14.137Z",
+      "updated_at": "2026-02-05T09:20:14.137Z"
+    },
+    {
+      "id": 8,
+      "order_id": 8,
+      "menu_item_id": 1,
+      "quantity": 1,
+      "unit_price": 6.99,
+      "total_price": 6.99,
+      "special_requests": null,
+      "created_at": "2026-02-05T09:22:04.551Z",
+      "updated_at": "2026-02-05T09:22:04.551Z"
     }
   ],
   "order_status_history": [
@@ -569,6 +619,55 @@
       "status": "ready",
       "created_at": "2026-01-31T11:46:12.571Z",
       "updated_at": "2026-01-31T11:46:12.571Z"
+    },
+    {
+      "id": 23,
+      "order_id": "7",
+      "status": "received",
+      "created_at": "2026-02-05T09:20:30.326Z",
+      "updated_at": "2026-02-05T09:20:30.326Z"
+    },
+    {
+      "id": 24,
+      "order_id": "7",
+      "status": "preparing",
+      "created_at": "2026-02-05T09:20:37.496Z",
+      "updated_at": "2026-02-05T09:20:37.496Z"
+    },
+    {
+      "id": 25,
+      "order_id": "7",
+      "status": "ready",
+      "created_at": "2026-02-05T09:20:39.310Z",
+      "updated_at": "2026-02-05T09:20:39.310Z"
+    },
+    {
+      "id": 26,
+      "order_id": "8",
+      "status": "received",
+      "created_at": "2026-02-05T09:22:21.177Z",
+      "updated_at": "2026-02-05T09:22:21.177Z"
+    },
+    {
+      "id": 27,
+      "order_id": "8",
+      "status": "preparing",
+      "created_at": "2026-02-05T09:22:22.696Z",
+      "updated_at": "2026-02-05T09:22:22.696Z"
+    },
+    {
+      "id": 28,
+      "order_id": "8",
+      "status": "ready",
+      "created_at": "2026-02-05T09:22:24.213Z",
+      "updated_at": "2026-02-05T09:22:24.213Z"
+    },
+    {
+      "id": 29,
+      "order_id": "8",
+      "status": "completed",
+      "created_at": "2026-02-05T09:22:25.845Z",
+      "updated_at": "2026-02-05T09:22:25.845Z"
     }
   ],
   "staff": [
@@ -595,5 +694,36 @@
       "updated_at": "2026-01-31T11:42:14.372Z"
     }
   ],
-  "order_activity_log": []
+  "order_activity_log": [
+    {
+      "id": 1,
+      "order_id": 7,
+      "order_number": "ORD-20260205-PDIG",
+      "restaurant_id": 1,
+      "table_id": 6,
+      "table_number": "1",
+      "action": "order_created",
+      "actor_type": "customer",
+      "actor_id": null,
+      "actor_name": "Customer",
+      "details": "{\"items\":[{\"name\":\"Chicken Wings\",\"quantity\":1}],\"totalAmount\":9.99,\"deviceInfo\":\"Windows PC - Chrome\"}",
+      "created_at": "2026-02-05T09:20:14.139Z",
+      "updated_at": "2026-02-05T09:20:14.139Z"
+    },
+    {
+      "id": 2,
+      "order_id": 8,
+      "order_number": "ORD-20260205-7X2W",
+      "restaurant_id": 1,
+      "table_id": 6,
+      "table_number": "1",
+      "action": "order_created",
+      "actor_type": "customer",
+      "actor_id": null,
+      "actor_name": "Customer",
+      "details": "{\"items\":[{\"name\":\"Spring Rolls\",\"quantity\":1}],\"totalAmount\":6.99,\"deviceInfo\":\"Windows PC - Chrome\"}",
+      "created_at": "2026-02-05T09:22:04.553Z",
+      "updated_at": "2026-02-05T09:22:04.553Z"
+    }
+  ]
 }

@@ -10,6 +10,7 @@ interface Table {
   id: number;
   table_number: string;
   is_active: boolean;
+  active_orders?: number;
 }
 
 interface InvoiceItem {
@@ -55,6 +56,7 @@ export default function InvoicePage() {
   const [loading, setLoading] = useState(true);
   const [loadingInvoice, setLoadingInvoice] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
+  const [showAllTables, setShowAllTables] = useState(false);
   const printRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -64,7 +66,9 @@ export default function InvoicePage() {
   const fetchTables = async () => {
     try {
       const response = await tablesAPI.getAll();
-      setTables(response.data.data.filter((t: Table) => t.is_active));
+      // Get all active tables
+      const allTables = response.data.data.filter((t: Table) => t.is_active);
+      setTables(allTables);
     } catch (error) {
       toast.error('Failed to load tables');
     } finally {
@@ -91,6 +95,14 @@ export default function InvoicePage() {
       setLoadingInvoice(false);
     }
   };
+
+  // Filter tables - show tables with orders first, or all tables if toggled
+  const tablesWithOrders = tables.filter(t => (t.active_orders ?? 0) > 0);
+  const displayTables = showAllTables ? tables : (tablesWithOrders.length > 0 ? tablesWithOrders : tables);
+  
+  const filteredTables = displayTables.filter(t => 
+    t.table_number.toLowerCase().includes(searchQuery.toLowerCase())
+  );
 
   const handlePrint = () => {
     const printContent = printRef.current;
@@ -207,10 +219,6 @@ export default function InvoicePage() {
     }, 250);
   };
 
-  const filteredTables = tables.filter(t => 
-    t.table_number.toLowerCase().includes(searchQuery.toLowerCase())
-  );
-
   if (loading) {
     return (
       <div className="flex items-center justify-center h-64">
@@ -248,6 +256,20 @@ export default function InvoicePage() {
               />
             </div>
 
+            {/* Toggle to show all tables */}
+            <div className="flex items-center justify-between mb-4">
+              <span className="text-sm text-gray-600">
+                {tablesWithOrders.length > 0 ? `${tablesWithOrders.length} table(s) with orders` : 'No active orders'}
+              </span>
+              <button
+                type="button"
+                onClick={() => setShowAllTables(!showAllTables)}
+                className="text-sm text-primary-600 hover:underline"
+              >
+                {showAllTables ? 'Show tables with orders' : 'Show all tables'}
+              </button>
+            </div>
+
             {/* Table List */}
             <div className="space-y-2 max-h-96 overflow-y-auto">
               {filteredTables.length === 0 ? (
@@ -263,7 +285,14 @@ export default function InvoicePage() {
                         : 'border-gray-200 hover:border-primary-300 hover:bg-gray-50'
                     }`}
                   >
-                    <span className="font-medium">Table {table.table_number}</span>
+                    <div className="flex items-center justify-between">
+                      <span className="font-medium">Table {table.table_number}</span>
+                      {(table.active_orders ?? 0) > 0 && (
+                        <span className="text-xs bg-primary-100 text-primary-700 px-2 py-1 rounded-full">
+                          {table.active_orders} order(s)
+                        </span>
+                      )}
+                    </div>
                   </button>
                 ))
               )}
