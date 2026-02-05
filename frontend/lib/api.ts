@@ -79,9 +79,7 @@ export const superadminAPI = {
 export const restaurantAPI = {
   get: () => api.get('/restaurants'),
   getPublic: (id: number) => api.get(`/restaurants/public/${id}`),
-  update: (data: FormData) => api.put('/restaurants', data, {
-    headers: { 'Content-Type': 'multipart/form-data' },
-  }),
+  update: (data: FormData) => api.put('/restaurants', data),
   getDashboard: () => api.get('/restaurants/dashboard'),
 };
 
@@ -108,12 +106,8 @@ export const menuAPI = {
   getAll: () => api.get('/menu'),
   getPublic: (restaurantId: number) => api.get(`/menu/public/${restaurantId}`),
   get: (id: number) => api.get(`/menu/item/${id}`),
-  create: (data: FormData) => api.post('/menu', data, {
-    headers: { 'Content-Type': 'multipart/form-data' },
-  }),
-  update: (id: number, data: FormData) => api.put(`/menu/item/${id}`, data, {
-    headers: { 'Content-Type': 'multipart/form-data' },
-  }),
+  create: (data: FormData) => api.post('/menu', data),
+  update: (id: number, data: FormData) => api.put(`/menu/item/${id}`, data),
   delete: (id: number) => api.delete(`/menu/item/${id}`),
   toggleAvailability: (id: number) => api.patch(`/menu/item/${id}/toggle`),
   

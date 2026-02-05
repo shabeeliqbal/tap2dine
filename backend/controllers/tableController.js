@@ -19,7 +19,7 @@ const getTables = async (req, res) => {
 
     // Get active orders count for each table
     const [orders] = await db.query(
-      `SELECT table_id, COUNT(*) as count FROM orders WHERE restaurant_id = ? AND status IN ('pending', 'received', 'preparing')`,
+      `SELECT table_id, COUNT(*) as count FROM orders WHERE restaurant_id = ? AND status IN ('pending', 'received', 'preparing') GROUP BY table_id`,
       [restaurantId]
     );
 
@@ -473,7 +473,7 @@ const getWaiters = async (req, res) => {
 const getTablesWithOrders = async (req, res) => {
   try {
     const restaurantId = req.restaurantId;
-    const staffId = req.staffId;
+    const staffId = req.staff?.id;
 
     // Get tables that have active orders
     const [tables] = await db.query(
@@ -505,7 +505,14 @@ const selfAssignToTable = async (req, res) => {
   try {
     const { id } = req.params;
     const restaurantId = req.restaurantId;
-    const staffId = req.staffId;
+    const staffId = req.staff?.id;
+
+    if (!staffId) {
+      return res.status(401).json({
+        success: false,
+        message: 'Staff not authenticated'
+      });
+    }
 
     // Verify this is a waiter
     const [staff] = await db.query(

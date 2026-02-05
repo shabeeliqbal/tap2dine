@@ -2,9 +2,12 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const db = require('../config/database');
 
-// Superadmin credentials (hardcoded)
-const SUPERADMIN_EMAIL = 'superadmin@tap2dine.com';
-const SUPERADMIN_PASSWORD = 'superadmin123';
+// JWT Secret - ensure it's set
+const JWT_SECRET = process.env.JWT_SECRET || 'tap2dine-dev-secret-change-in-production';
+
+// Superadmin credentials (move to environment variables in production)
+const SUPERADMIN_EMAIL = process.env.SUPERADMIN_EMAIL || 'superadmin@tap2dine.com';
+const SUPERADMIN_PASSWORD = process.env.SUPERADMIN_PASSWORD || 'superadmin123';
 
 // Register a new user
 const register = async (req, res) => {
@@ -46,7 +49,7 @@ const register = async (req, res) => {
       // Generate token
       const token = jwt.sign(
         { userId },
-        process.env.JWT_SECRET,
+        JWT_SECRET,
         { expiresIn: process.env.JWT_EXPIRES_IN || '7d' }
       );
 
@@ -87,7 +90,7 @@ const login = async (req, res) => {
     if (email === SUPERADMIN_EMAIL && password === SUPERADMIN_PASSWORD) {
       const token = jwt.sign(
         { isSuperAdmin: true },
-        process.env.JWT_SECRET,
+        JWT_SECRET,
         { expiresIn: process.env.JWT_EXPIRES_IN || '7d' }
       );
 
@@ -142,7 +145,7 @@ const login = async (req, res) => {
     // Generate token
     const token = jwt.sign(
       { userId: user.id },
-      process.env.JWT_SECRET,
+      JWT_SECRET,
       { expiresIn: process.env.JWT_EXPIRES_IN || '7d' }
     );
 

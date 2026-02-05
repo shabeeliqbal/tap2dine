@@ -103,5 +103,7 @@ export const debounce = <T extends (...args: any[]) => any>(
 export const getImageUrl = (path: string | null | undefined): string => {
   if (!path) return '/placeholder-food.jpg';
   if (path.startsWith('http')) return path;
-  return `http://localhost:5000${path}`;
+  // Use environment variable for API URL, fallback to relative path for production
+  const apiUrl = process.env.NEXT_PUBLIC_API_URL || '';
+  return `${apiUrl}${path}`;
 };

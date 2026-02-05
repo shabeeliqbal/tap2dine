@@ -39,8 +39,12 @@ const logOrderActivity = async (data) => {
 const getOrderItems = async (orderIds) => {
   if (!orderIds || orderIds.length === 0) return {};
   
+  // Sanitize orderIds to ensure they are integers (prevent SQL injection)
+  const sanitizedIds = orderIds.map(id => parseInt(id, 10)).filter(id => !isNaN(id));
+  if (sanitizedIds.length === 0) return {};
+  
   const [orderItems] = await db.query(
-    `SELECT * FROM order_items WHERE order_id IN (${orderIds.join(',')})`,
+    `SELECT * FROM order_items WHERE order_id IN (${sanitizedIds.join(',')})`,
     []
   );
   
@@ -698,8 +702,8 @@ const addItemsToOrder = async (req, res) => {
       tableNumber: updatedOrders[0]?.table_number || 'Unknown',
       action: 'items_added',
       actorType: 'waiter',
-      actorId: req.staffId || null,
-      actorName: addedBy || 'Waiter',
+      actorId: req.staff?.id || null,
+      actorName: addedBy || req.staff?.name || 'Waiter',
       details: {
         items: newItems.map(i => ({ name: i.name, quantity: i.quantity })),
         additionalTotal: additionalTotal

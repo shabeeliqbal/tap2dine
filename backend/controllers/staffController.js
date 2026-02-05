@@ -2,6 +2,9 @@ const db = require('../config/database');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
+// JWT Secret - ensure it's set consistently
+const JWT_SECRET = process.env.JWT_SECRET || 'tap2dine-dev-secret-change-in-production';
+
 // Get all staff for restaurant
 const getAllStaff = async (req, res) => {
   try {
@@ -227,7 +230,7 @@ const staffLogin = async (req, res) => {
         restaurantId: staffMember.restaurant_id,
         role: staffMember.role
       },
-      process.env.JWT_SECRET || 'your-secret-key',
+      JWT_SECRET,
       { expiresIn: '24h' }
     );
 

@@ -1,6 +1,9 @@
 const jwt = require('jsonwebtoken');
 const db = require('../config/database');
 
+// JWT Secret - ensure it's set consistently
+const JWT_SECRET = process.env.JWT_SECRET || 'tap2dine-dev-secret-change-in-production';
+
 const auth = async (req, res, next) => {
   try {
     const authHeader = req.headers.authorization;
@@ -14,7 +17,7 @@ const auth = async (req, res, next) => {
 
     const token = authHeader.split(' ')[1];
     
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    const decoded = jwt.verify(token, JWT_SECRET);
     
     // Get user from database
     const [users] = await db.query(
@@ -77,7 +80,7 @@ const staffAuth = async (req, res, next) => {
 
     const token = authHeader.split(' ')[1];
     
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    const decoded = jwt.verify(token, JWT_SECRET);
     
     // Check if this is a staff token
     if (!decoded.staffId) {
@@ -147,7 +150,7 @@ const superAdminAuth = async (req, res, next) => {
 
     const token = authHeader.split(' ')[1];
     
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    const decoded = jwt.verify(token, JWT_SECRET);
     
     // Check if this is a superadmin token
     if (!decoded.isSuperAdmin) {
