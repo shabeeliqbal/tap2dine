@@ -373,6 +373,20 @@
       "device_info": "Windows PC - Chrome",
       "created_at": "2026-02-05T09:22:04.550Z",
       "updated_at": "2026-02-05T09:22:25.842Z"
+    },
+    {
+      "id": 9,
+      "restaurant_id": 1,
+      "table_id": 6,
+      "order_number": "ORD-20260205-C679",
+      "customer_name": null,
+      "customer_phone": null,
+      "special_instructions": null,
+      "total_amount": 9.99,
+      "status": "completed",
+      "device_info": "Windows PC - Chrome",
+      "created_at": "2026-02-05T17:43:16.269Z",
+      "updated_at": "2026-02-05T17:43:49.182Z"
     }
   ],
   "order_items": [
@@ -463,6 +477,17 @@
       "special_requests": null,
       "created_at": "2026-02-05T09:22:04.551Z",
       "updated_at": "2026-02-05T09:22:04.551Z"
+    },
+    {
+      "id": 9,
+      "order_id": 9,
+      "menu_item_id": 2,
+      "quantity": 1,
+      "unit_price": 9.99,
+      "total_price": 9.99,
+      "special_requests": null,
+      "created_at": "2026-02-05T17:43:16.271Z",
+      "updated_at": "2026-02-05T17:43:16.271Z"
     }
   ],
   "order_status_history": [
@@ -668,6 +693,34 @@
       "status": "completed",
       "created_at": "2026-02-05T09:22:25.845Z",
       "updated_at": "2026-02-05T09:22:25.845Z"
+    },
+    {
+      "id": 30,
+      "order_id": "9",
+      "status": "received",
+      "created_at": "2026-02-05T17:43:31.514Z",
+      "updated_at": "2026-02-05T17:43:31.514Z"
+    },
+    {
+      "id": 31,
+      "order_id": "9",
+      "status": "preparing",
+      "created_at": "2026-02-05T17:43:41.360Z",
+      "updated_at": "2026-02-05T17:43:41.360Z"
+    },
+    {
+      "id": 32,
+      "order_id": "9",
+      "status": "ready",
+      "created_at": "2026-02-05T17:43:42.221Z",
+      "updated_at": "2026-02-05T17:43:42.221Z"
+    },
+    {
+      "id": 33,
+      "order_id": "9",
+      "status": "completed",
+      "created_at": "2026-02-05T17:43:49.183Z",
+      "updated_at": "2026-02-05T17:43:49.183Z"
     }
   ],
   "staff": [
@@ -724,6 +777,21 @@
       "details": "{\"items\":[{\"name\":\"Spring Rolls\",\"quantity\":1}],\"totalAmount\":6.99,\"deviceInfo\":\"Windows PC - Chrome\"}",
       "created_at": "2026-02-05T09:22:04.553Z",
       "updated_at": "2026-02-05T09:22:04.553Z"
+    },
+    {
+      "id": 3,
+      "order_id": 9,
+      "order_number": "ORD-20260205-C679",
+      "restaurant_id": 1,
+      "table_id": 6,
+      "table_number": "1",
+      "action": "order_created",
+      "actor_type": "customer",
+      "actor_id": null,
+      "actor_name": "Customer",
+      "details": "{\"items\":[{\"name\":\"Chicken Wings\",\"quantity\":1}],\"totalAmount\":9.99,\"deviceInfo\":\"Windows PC - Chrome\"}",
+      "created_at": "2026-02-05T17:43:16.272Z",
+      "updated_at": "2026-02-05T17:43:16.273Z"
     }
   ]
 }

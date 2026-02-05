@@ -152,7 +152,7 @@ export default function AdminLayout({
         </div>
 
         {/* Navigation */}
-        <nav className="p-4 space-y-1">
+        <nav className="p-4 space-y-1 pb-20 overflow-y-auto max-h-[calc(100vh-180px)]">
           {navItems.map((item) => {
             const isActive = pathname === item.href;
             return (
@@ -181,7 +181,7 @@ export default function AdminLayout({
         </nav>
 
         {/* Logout button */}
-        <div className="absolute bottom-0 left-0 right-0 p-4 border-t">
+        <div className="absolute bottom-0 left-0 right-0 p-4 border-t bg-white">
           <button
             onClick={handleLogout}
             className="flex items-center gap-3 px-4 py-3 w-full text-gray-600 hover:bg-gray-50 rounded-lg transition-colors"

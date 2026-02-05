@@ -17,9 +17,9 @@ const getTables = async (req, res) => {
       [restaurantId]
     );
 
-    // Get active orders count for each table
+    // Get active orders count for each table (include all non-cancelled, non-completed orders for billing purposes)
     const [orders] = await db.query(
-      `SELECT table_id, COUNT(*) as count FROM orders WHERE restaurant_id = ? AND status IN ('pending', 'received', 'preparing') GROUP BY table_id`,
+      `SELECT table_id, COUNT(*) as count FROM orders WHERE restaurant_id = ? AND status NOT IN ('cancelled', 'completed') GROUP BY table_id`,
       [restaurantId]
     );
 
