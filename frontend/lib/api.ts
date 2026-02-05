@@ -149,6 +149,7 @@ export const ordersAPI = {
     api.post(`/orders/${orderId}/items`, { items, addedBy }),
   getActivityLog: (params?: { startDate?: string; endDate?: string; orderId?: number }) =>
     api.get('/orders/activity-log', { params }),
+  getTableInvoice: (tableId: number) => api.get(`/orders/invoice/table/${tableId}`),
 };
 
 // Reports API

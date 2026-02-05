@@ -769,6 +769,120 @@ const getActivityLog = async (req, res) => {
   }
 };
 
+// Get invoice for a table (all orders combined)
+const getTableInvoice = async (req, res) => {
+  try {
+    const restaurantId = req.restaurantId;
+    const { tableId } = req.params;
+
+    // Get restaurant details (including tax_percent)
+    const [restaurants] = await db.query(
+      'SELECT * FROM restaurants WHERE id = ?',
+      [restaurantId]
+    );
+
+    if (restaurants.length === 0) {
+      return res.status(404).json({
+        success: false,
+        message: 'Restaurant not found'
+      });
+    }
+
+    const restaurant = restaurants[0];
+    const taxPercent = parseFloat(restaurant.tax_percent) || 0;
+
+    // Get table details
+    const [tables] = await db.query(
+      'SELECT * FROM tables WHERE id = ? AND restaurant_id = ?',
+      [tableId, restaurantId]
+    );
+
+    if (tables.length === 0) {
+      return res.status(404).json({
+        success: false,
+        message: 'Table not found'
+      });
+    }
+
+    const table = tables[0];
+
+    // Get all non-cancelled orders for this table (active orders)
+    const [orders] = await db.query(
+      `SELECT * FROM orders WHERE table_id = ? AND restaurant_id = ? AND status NOT IN ('cancelled') ORDER BY created_at ASC`,
+      [tableId, restaurantId]
+    );
+
+    if (orders.length === 0) {
+      return res.status(404).json({
+        success: false,
+        message: 'No orders found for this table'
+      });
+    }
+
+    // Get all order items
+    const orderIds = orders.map(o => o.id);
+    const itemsByOrder = await getOrderItems(orderIds);
+
+    // Combine all items
+    let allItems = [];
+    let subtotal = 0;
+
+    orders.forEach(order => {
+      const items = itemsByOrder[order.id] || [];
+      items.forEach(item => {
+        allItems.push({
+          ...item,
+          order_number: order.order_number,
+          order_id: order.id
+        });
+        subtotal += parseFloat(item.total_price) || 0;
+      });
+    });
+
+    // Calculate tax and total
+    const taxAmount = (subtotal * taxPercent) / 100;
+    const totalAmount = subtotal + taxAmount;
+
+    // Generate invoice number
+    const invoiceNumber = `INV-${Date.now().toString(36).toUpperCase()}`;
+
+    res.json({
+      success: true,
+      data: {
+        invoice_number: invoiceNumber,
+        restaurant: {
+          name: restaurant.name,
+          address: restaurant.address,
+          phone: restaurant.phone,
+          logo_url: restaurant.logo_url
+        },
+        table: {
+          id: table.id,
+          table_number: table.table_number
+        },
+        orders: orders.map(o => ({
+          id: o.id,
+          order_number: o.order_number,
+          customer_name: o.customer_name,
+          created_at: o.created_at
+        })),
+        items: allItems,
+        subtotal: subtotal,
+        tax_percent: taxPercent,
+        tax_amount: taxAmount,
+        total_amount: totalAmount,
+        generated_at: new Date().toISOString()
+      }
+    });
+  } catch (error) {
+    console.error('Get table invoice error:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Failed to get invoice'
+    });
+  }
+};
+
 module.exports = {
   getOrders,
   getActiveOrders,
@@ -779,5 +893,6 @@ module.exports = {
   getOrderHistory,
   getTableOrders,
   addItemsToOrder,
-  getActivityLog
+  getActivityLog,
+  getTableInvoice
 };

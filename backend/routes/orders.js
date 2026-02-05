@@ -56,6 +56,9 @@ router.patch(
   orderController.updateOrderStatus
 );
 
+// Get invoice for a table (admin)
+router.get('/invoice/table/:tableId', auth, orderController.getTableInvoice);
+
 // Add items to an existing order (waiter)
 router.post(
   '/:id/items',

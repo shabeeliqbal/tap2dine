@@ -3,7 +3,7 @@
     {
       "id": 1,
       "email": "shabeeliqbal0@gmail.com",
-      "password": "$2a$10$t/PRHwhYAA2/yYLFoGZeQ.KAO.jSUMMuADCv4BBxVwVJyIiKgUgBq",
+      "password": "$2a$10$wuY.Flp.ck3W2ra5hzYS6u5F1XMBBagj5zL/24fD3ksm1sXdDklYu",
       "name": "The Good Food Place",
       "phone": "+1234567890",
       "created_at": "2026-01-25T00:00:00Z",
@@ -23,6 +23,7 @@
       "show_prices": 1,
       "require_customer_name": 0,
       "show_total_at_checkout": 1,
+      "tax_percent": 0,
       "created_at": "2026-01-25T00:00:00Z",
       "updated_at": "2026-01-25T00:00:00Z"
     }

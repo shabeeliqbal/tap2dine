@@ -64,7 +64,7 @@ const getRestaurantPublic = async (req, res) => {
 const updateRestaurant = async (req, res) => {
   try {
     const restaurantId = req.restaurantId;
-    const { name, description, address, phone, show_prices, require_customer_name, show_total_at_checkout } = req.body;
+    const { name, description, address, phone, show_prices, require_customer_name, show_total_at_checkout, tax_percent } = req.body;
 
     // Handle logo upload
     let logoUrl = undefined;
@@ -91,6 +91,10 @@ const updateRestaurant = async (req, res) => {
     if (show_total_at_checkout !== undefined) {
       updates.show_total_at_checkout = show_total_at_checkout === 'true' || show_total_at_checkout === true || show_total_at_checkout === 1 ? 1 : 0;
     }
+    // Handle tax_percent
+    if (tax_percent !== undefined) {
+      updates.tax_percent = parseFloat(tax_percent) || 0;
+    }
 
     await db.query(
       `UPDATE restaurants SET 
@@ -101,9 +105,10 @@ const updateRestaurant = async (req, res) => {
         logo_url = COALESCE(?, logo_url),
         show_prices = COALESCE(?, show_prices),
         require_customer_name = COALESCE(?, require_customer_name),
-        show_total_at_checkout = COALESCE(?, show_total_at_checkout)
+        show_total_at_checkout = COALESCE(?, show_total_at_checkout),
+        tax_percent = COALESCE(?, tax_percent)
        WHERE id = ?`,
-      [updates.name, updates.description, updates.address, updates.phone, updates.logo_url, updates.show_prices, updates.require_customer_name, updates.show_total_at_checkout, restaurantId]
+      [updates.name, updates.description, updates.address, updates.phone, updates.logo_url, updates.show_prices, updates.require_customer_name, updates.show_total_at_checkout, updates.tax_percent, restaurantId]
     );
 
     const [updatedRestaurant] = await db.query(

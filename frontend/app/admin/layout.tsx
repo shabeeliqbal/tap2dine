@@ -5,7 +5,7 @@ import { useRouter, usePathname } from 'next/navigation';
 import Link from 'next/link';
 import { 
   Utensils, LayoutDashboard, TableIcon, UtensilsCrossed, 
-  ClipboardList, History, Settings, LogOut, Menu, X, Bell, FileText, Users, ScrollText
+  ClipboardList, History, Settings, LogOut, Menu, X, Bell, FileText, Users, ScrollText, Receipt
 } from 'lucide-react';
 import { useAuthStore } from '@/lib/store';
 import { connectSocket, joinRestaurantRoom, onNewOrder, offNewOrder, disconnectSocket } from '@/lib/socket';
@@ -17,6 +17,7 @@ const navItems = [
   { href: '/admin/tables', label: 'Tables', icon: TableIcon },
   { href: '/admin/menu', label: 'Menu', icon: UtensilsCrossed },
   { href: '/admin/staff', label: 'Staff', icon: Users },
+  { href: '/admin/invoice', label: 'Invoice', icon: Receipt },
   { href: '/admin/history', label: 'History', icon: History },
   { href: '/admin/activity-log', label: 'Activity Log', icon: ScrollText },
   { href: '/admin/reports', label: 'Reports', icon: FileText },

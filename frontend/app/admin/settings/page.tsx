@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { Store, User, Save, Image as ImageIcon, Eye, EyeOff, UserCircle, DollarSign } from 'lucide-react';
+import { Store, User, Save, Image as ImageIcon, Eye, EyeOff, UserCircle, DollarSign, Percent } from 'lucide-react';
 import { restaurantAPI, authAPI } from '@/lib/api';
 import { useAuthStore } from '@/lib/store';
 import { getImageUrl } from '@/lib/utils';
@@ -37,6 +37,7 @@ export default function SettingsPage() {
     showPrices: true,
     requireCustomerName: false,
     showTotalAtCheckout: true,
+    taxPercent: 0,
   });
 
   useEffect(() => {
@@ -55,6 +56,7 @@ export default function SettingsPage() {
         showPrices: data.show_prices === 1 || data.show_prices === true || data.show_prices === undefined,
         requireCustomerName: data.require_customer_name === 1 || data.require_customer_name === true,
         showTotalAtCheckout: data.show_total_at_checkout === 1 || data.show_total_at_checkout === true || data.show_total_at_checkout === undefined,
+        taxPercent: parseFloat(data.tax_percent) || 0,
       });
       if (data.logo_url) {
         setLogoPreview(getImageUrl(data.logo_url));
@@ -78,6 +80,7 @@ export default function SettingsPage() {
     formData.append('show_prices', restaurantForm.showPrices.toString());
     formData.append('require_customer_name', restaurantForm.requireCustomerName.toString());
     formData.append('show_total_at_checkout', restaurantForm.showTotalAtCheckout.toString());
+    formData.append('tax_percent', restaurantForm.taxPercent.toString());
 
     const logoInput = document.getElementById('logoInput') as HTMLInputElement;
     if (logoInput?.files?.[0]) {
@@ -213,6 +216,30 @@ export default function SettingsPage() {
                   }`}
                 />
               </button>
+            </div>
+          </div>
+
+          {/* Tax Percentage */}
+          <div className="pt-4 border-t">
+            <div className="flex items-center gap-2 mb-2">
+              <Percent className="h-5 w-5 text-gray-500" />
+              <div>
+                <label className="font-medium text-gray-700">Tax Percentage</label>
+                <p className="text-sm text-gray-500">Set the default tax rate to be added to invoices</p>
+              </div>
+            </div>
+            <div className="flex items-center gap-2">
+              <input
+                type="number"
+                min="0"
+                max="100"
+                step="0.1"
+                value={restaurantForm.taxPercent}
+                onChange={(e) => setRestaurantForm({ ...restaurantForm, taxPercent: parseFloat(e.target.value) || 0 })}
+                className="input w-32"
+                placeholder="0"
+              />
+              <span className="text-gray-500">%</span>
             </div>
           </div>
 
