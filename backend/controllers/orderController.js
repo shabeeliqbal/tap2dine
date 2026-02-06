@@ -125,7 +125,7 @@ const getOrders = async (req, res) => {
   }
 };
 
-// Get active orders (pending, received, preparing)
+// Get active orders (pending, received, preparing, ready)
 const getActiveOrders = async (req, res) => {
   try {
     const restaurantId = req.restaurantId;
@@ -136,8 +136,8 @@ const getActiveOrders = async (req, res) => {
       [restaurantId]
     );
 
-    // Filter by active status
-    orders = orders.filter(o => ['pending', 'received', 'preparing'].includes(o.status));
+    // Filter by active status (include ready for billing purposes)
+    orders = orders.filter(o => ['pending', 'received', 'preparing', 'ready'].includes(o.status));
 
     // Get tables
     const [tables] = await db.query(`SELECT * FROM tables WHERE restaurant_id = ?`, [restaurantId]);
