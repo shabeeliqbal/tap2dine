@@ -810,9 +810,9 @@ const getTableInvoice = async (req, res) => {
 
     const table = tables[0];
 
-    // Get all non-cancelled orders for this table (active orders)
+    // Get all unpaid orders for this table (exclude cancelled and completed)
     const [orders] = await db.query(
-      `SELECT * FROM orders WHERE table_id = ? AND restaurant_id = ? AND status NOT IN ('cancelled') ORDER BY created_at ASC`,
+      `SELECT * FROM orders WHERE table_id = ? AND restaurant_id = ? AND status NOT IN ('cancelled', 'completed') ORDER BY created_at ASC`,
       [tableId, restaurantId]
     );
 

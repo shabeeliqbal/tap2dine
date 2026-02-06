@@ -387,6 +387,20 @@
       "device_info": "Windows PC - Chrome",
       "created_at": "2026-02-05T17:43:16.269Z",
       "updated_at": "2026-02-05T17:43:49.182Z"
+    },
+    {
+      "id": 10,
+      "restaurant_id": 1,
+      "table_id": 6,
+      "order_number": "ORD-20260205-LENF",
+      "customer_name": null,
+      "customer_phone": null,
+      "special_instructions": null,
+      "total_amount": 9.99,
+      "status": "ready",
+      "device_info": "Windows PC - Chrome",
+      "created_at": "2026-02-05T18:04:47.183Z",
+      "updated_at": "2026-02-05T18:04:58.320Z"
     }
   ],
   "order_items": [
@@ -488,6 +502,17 @@
       "special_requests": null,
       "created_at": "2026-02-05T17:43:16.271Z",
       "updated_at": "2026-02-05T17:43:16.271Z"
+    },
+    {
+      "id": 10,
+      "order_id": 10,
+      "menu_item_id": 2,
+      "quantity": 1,
+      "unit_price": 9.99,
+      "total_price": 9.99,
+      "special_requests": null,
+      "created_at": "2026-02-05T18:04:47.185Z",
+      "updated_at": "2026-02-05T18:04:47.185Z"
     }
   ],
   "order_status_history": [
@@ -721,6 +746,27 @@
       "status": "completed",
       "created_at": "2026-02-05T17:43:49.183Z",
       "updated_at": "2026-02-05T17:43:49.183Z"
+    },
+    {
+      "id": 34,
+      "order_id": "10",
+      "status": "received",
+      "created_at": "2026-02-05T18:04:56.068Z",
+      "updated_at": "2026-02-05T18:04:56.068Z"
+    },
+    {
+      "id": 35,
+      "order_id": "10",
+      "status": "preparing",
+      "created_at": "2026-02-05T18:04:57.120Z",
+      "updated_at": "2026-02-05T18:04:57.120Z"
+    },
+    {
+      "id": 36,
+      "order_id": "10",
+      "status": "ready",
+      "created_at": "2026-02-05T18:04:58.321Z",
+      "updated_at": "2026-02-05T18:04:58.321Z"
     }
   ],
   "staff": [
@@ -792,6 +838,21 @@
       "details": "{\"items\":[{\"name\":\"Chicken Wings\",\"quantity\":1}],\"totalAmount\":9.99,\"deviceInfo\":\"Windows PC - Chrome\"}",
       "created_at": "2026-02-05T17:43:16.272Z",
       "updated_at": "2026-02-05T17:43:16.273Z"
+    },
+    {
+      "id": 4,
+      "order_id": 10,
+      "order_number": "ORD-20260205-LENF",
+      "restaurant_id": 1,
+      "table_id": 6,
+      "table_number": "1",
+      "action": "order_created",
+      "actor_type": "customer",
+      "actor_id": null,
+      "actor_name": "Customer",
+      "details": "{\"items\":[{\"name\":\"Chicken Wings\",\"quantity\":1}],\"totalAmount\":9.99,\"deviceInfo\":\"Windows PC - Chrome\"}",
+      "created_at": "2026-02-05T18:04:47.187Z",
+      "updated_at": "2026-02-05T18:04:47.187Z"
     }
   ]
 }
