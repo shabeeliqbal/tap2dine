@@ -2,6 +2,15 @@ const db = require('../config/database');
 const QRCode = require('qrcode');
 const { v4: uuidv4 } = require('uuid');
 
+// Helper to get the base URL for QR codes
+const getQRBaseUrl = () => {
+  let url = process.env.QR_BASE_URL || process.env.FRONTEND_URL;
+  if (!url || url === '*') {
+    url = 'http://localhost:3000';
+  }
+  return url;
+};
+
 // Get all tables for a restaurant
 const getTables = async (req, res) => {
   try {
@@ -309,7 +318,7 @@ const getQRCode = async (req, res) => {
     }
 
     const table = tables[0];
-    const frontendUrl = process.env.FRONTEND_URL || 'http://localhost:3000';
+    const frontendUrl = getQRBaseUrl();
     const menuUrl = `${frontendUrl}/menu/${table.qr_code}`;
 
     // Generate QR code as data URL
@@ -358,7 +367,7 @@ const downloadQRCode = async (req, res) => {
     }
 
     const table = tables[0];
-    const frontendUrl = process.env.FRONTEND_URL || 'http://localhost:3000';
+    const frontendUrl = getQRBaseUrl();
     const menuUrl = `${frontendUrl}/menu/${table.qr_code}`;
 
     // Generate QR code as buffer
