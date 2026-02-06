@@ -1,8 +1,9 @@
 'use client';
 
 import { useEffect, useState, useRef } from 'react';
-import { Printer, X, Receipt, Search } from 'lucide-react';
-import { tablesAPI, ordersAPI } from '@/lib/api';
+import { Printer, Receipt, Search, History, CheckCircle } from 'lucide-react';
+import Link from 'next/link';
+import { tablesAPI, invoicesAPI } from '@/lib/api';
 import { formatCurrency, formatDateTime, getImageUrl } from '@/lib/utils';
 import toast from 'react-hot-toast';
 
@@ -24,6 +25,7 @@ interface InvoiceItem {
 }
 
 interface InvoiceData {
+  id?: number;
   invoice_number: string;
   restaurant: {
     name: string;
@@ -46,7 +48,8 @@ interface InvoiceData {
   tax_percent: number;
   tax_amount: number;
   total_amount: number;
-  generated_at: string;
+  generated_at?: string;
+  created_at?: string;
 }
 
 export default function InvoicePage() {
@@ -55,6 +58,8 @@ export default function InvoicePage() {
   const [invoice, setInvoice] = useState<InvoiceData | null>(null);
   const [loading, setLoading] = useState(true);
   const [loadingInvoice, setLoadingInvoice] = useState(false);
+  const [generatingInvoice, setGeneratingInvoice] = useState(false);
+  const [invoiceGenerated, setInvoiceGenerated] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [showAllTables, setShowAllTables] = useState(false);
   const printRef = useRef<HTMLDivElement>(null);
@@ -66,7 +71,6 @@ export default function InvoicePage() {
   const fetchTables = async () => {
     try {
       const response = await tablesAPI.getAll();
-      // Get all active tables
       const allTables = response.data.data.filter((t: Table) => t.is_active);
       setTables(allTables);
     } catch (error) {
@@ -80,15 +84,16 @@ export default function InvoicePage() {
     setSelectedTable(tableId);
     setLoadingInvoice(true);
     setInvoice(null);
+    setInvoiceGenerated(false);
 
     try {
-      const response = await ordersAPI.getTableInvoice(tableId);
+      const response = await invoicesAPI.getPreview(tableId);
       setInvoice(response.data.data);
     } catch (error: any) {
       if (error.response?.status === 404) {
         toast.error('No orders found for this table');
       } else {
-        toast.error('Failed to load invoice');
+        toast.error('Failed to load invoice preview');
       }
       setSelectedTable(null);
     } finally {
@@ -96,7 +101,23 @@ export default function InvoicePage() {
     }
   };
 
-  // Filter tables - show tables with orders first, or all tables if toggled
+  const handleGenerateInvoice = async () => {
+    if (!selectedTable || !invoice) return;
+
+    setGeneratingInvoice(true);
+    try {
+      const response = await invoicesAPI.generate(selectedTable);
+      setInvoice(response.data.data);
+      setInvoiceGenerated(true);
+      toast.success(`Invoice ${response.data.data.invoice_number} generated successfully!`);
+      fetchTables();
+    } catch (error: any) {
+      toast.error(error.response?.data?.message || 'Failed to generate invoice');
+    } finally {
+      setGeneratingInvoice(false);
+    }
+  };
+
   const tablesWithOrders = tables.filter(t => (t.active_orders ?? 0) > 0);
   const displayTables = showAllTables ? tables : (tablesWithOrders.length > 0 ? tablesWithOrders : tables);
   
@@ -114,109 +135,47 @@ export default function InvoicePage() {
       return;
     }
 
+    const invoiceNumber = invoice?.invoice_number || 'PREVIEW';
+
     printWindow.document.write(`
       <!DOCTYPE html>
       <html>
         <head>
-          <title>Invoice - ${invoice?.invoice_number}</title>
+          <title>Invoice - ${invoiceNumber}</title>
           <style>
-            * {
-              margin: 0;
-              padding: 0;
-              box-sizing: border-box;
-            }
-            body {
-              font-family: 'Courier New', monospace;
-              font-size: 12px;
-              width: 80mm;
-              padding: 10px;
-            }
-            .header {
-              text-align: center;
-              margin-bottom: 15px;
-              border-bottom: 1px dashed #000;
-              padding-bottom: 10px;
-            }
-            .header h1 {
-              font-size: 18px;
-              margin-bottom: 5px;
-            }
-            .header p {
-              font-size: 10px;
-              color: #666;
-            }
-            .info {
-              margin-bottom: 15px;
-              font-size: 11px;
-            }
-            .info p {
-              margin: 3px 0;
-            }
-            .items {
-              width: 100%;
-              margin-bottom: 15px;
-            }
-            .items th, .items td {
-              text-align: left;
-              padding: 3px 0;
-              font-size: 11px;
-            }
-            .items th {
-              border-bottom: 1px solid #000;
-            }
-            .items .qty {
-              text-align: center;
-              width: 30px;
-            }
-            .items .price {
-              text-align: right;
-              width: 60px;
-            }
-            .totals {
-              border-top: 1px dashed #000;
-              padding-top: 10px;
-              margin-top: 10px;
-            }
-            .totals .row {
-              display: flex;
-              justify-content: space-between;
-              margin: 5px 0;
-              font-size: 12px;
-            }
-            .totals .total {
-              font-weight: bold;
-              font-size: 14px;
-              border-top: 1px solid #000;
-              padding-top: 5px;
-              margin-top: 5px;
-            }
-            .footer {
-              text-align: center;
-              margin-top: 20px;
-              padding-top: 10px;
-              border-top: 1px dashed #000;
-              font-size: 10px;
-            }
-            @media print {
-              body {
-                width: 80mm;
-              }
-            }
+            * { margin: 0; padding: 0; box-sizing: border-box; }
+            body { font-family: 'Courier New', monospace; font-size: 12px; width: 80mm; padding: 10px; }
+            .header { text-align: center; margin-bottom: 15px; border-bottom: 1px dashed #000; padding-bottom: 10px; }
+            .header h1 { font-size: 18px; margin-bottom: 5px; }
+            .header p { font-size: 10px; color: #666; }
+            .info { margin-bottom: 15px; font-size: 11px; }
+            .info p { margin: 3px 0; }
+            .items { width: 100%; margin-bottom: 15px; }
+            .items th, .items td { text-align: left; padding: 3px 0; font-size: 11px; }
+            .items th { border-bottom: 1px solid #000; }
+            .items .qty { text-align: center; width: 30px; }
+            .items .price { text-align: right; width: 60px; }
+            .totals { border-top: 1px dashed #000; padding-top: 10px; margin-top: 10px; }
+            .totals .row { display: flex; justify-content: space-between; margin: 5px 0; font-size: 12px; }
+            .totals .total { font-weight: bold; font-size: 14px; border-top: 1px solid #000; padding-top: 5px; margin-top: 5px; }
+            .footer { text-align: center; margin-top: 20px; padding-top: 10px; border-top: 1px dashed #000; font-size: 10px; }
+            @media print { body { width: 80mm; } }
           </style>
         </head>
-        <body>
-          ${printContent.innerHTML}
-        </body>
+        <body>${printContent.innerHTML}</body>
       </html>
     `);
 
     printWindow.document.close();
     printWindow.focus();
-    
-    setTimeout(() => {
-      printWindow.print();
-      printWindow.close();
-    }, 250);
+    setTimeout(() => { printWindow.print(); printWindow.close(); }, 250);
+  };
+
+  const handleNewInvoice = () => {
+    setSelectedTable(null);
+    setInvoice(null);
+    setInvoiceGenerated(false);
+    fetchTables();
   };
 
   if (loading) {
@@ -231,6 +190,10 @@ export default function InvoicePage() {
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <h1 className="text-2xl font-bold text-gray-900">Invoice / Bill</h1>
+        <Link href="/admin/invoice/history" className="btn-secondary flex items-center gap-2">
+          <History className="h-4 w-4" />
+          View History
+        </Link>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
@@ -244,7 +207,6 @@ export default function InvoicePage() {
           </div>
           
           <div className="p-4">
-            {/* Search */}
             <div className="relative mb-4">
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
               <input
@@ -256,7 +218,6 @@ export default function InvoicePage() {
               />
             </div>
 
-            {/* Toggle to show all tables */}
             <div className="flex items-center justify-between mb-4">
               <span className="text-sm text-gray-600">
                 {tablesWithOrders.length > 0 ? `${tablesWithOrders.length} table(s) with orders` : 'No active orders'}
@@ -270,7 +231,6 @@ export default function InvoicePage() {
               </button>
             </div>
 
-            {/* Table List */}
             <div className="space-y-2 max-h-96 overflow-y-auto">
               {filteredTables.length === 0 ? (
                 <p className="text-gray-500 text-center py-4">No tables found</p>
@@ -279,11 +239,12 @@ export default function InvoicePage() {
                   <button
                     key={table.id}
                     onClick={() => handleSelectTable(table.id)}
+                    disabled={invoiceGenerated}
                     className={`w-full p-3 rounded-lg border text-left transition-colors ${
                       selectedTable === table.id
                         ? 'border-primary-500 bg-primary-50 text-primary-700'
                         : 'border-gray-200 hover:border-primary-300 hover:bg-gray-50'
-                    }`}
+                    } ${invoiceGenerated ? 'opacity-50 cursor-not-allowed' : ''}`}
                   >
                     <div className="flex items-center justify-between">
                       <span className="font-medium">Table {table.table_number}</span>
@@ -304,15 +265,47 @@ export default function InvoicePage() {
         <div className="lg:col-span-2">
           <div className="card">
             <div className="p-4 border-b flex items-center justify-between">
-              <h2 className="font-semibold text-gray-900">Invoice Preview</h2>
+              <h2 className="font-semibold text-gray-900">
+                {invoiceGenerated ? 'Generated Invoice' : 'Invoice Preview'}
+              </h2>
               {invoice && (
-                <button
-                  onClick={handlePrint}
-                  className="btn-primary flex items-center gap-2"
-                >
-                  <Printer className="h-4 w-4" />
-                  Print Invoice
-                </button>
+                <div className="flex items-center gap-2">
+                  {invoiceGenerated ? (
+                    <>
+                      <button onClick={handlePrint} className="btn-primary flex items-center gap-2">
+                        <Printer className="h-4 w-4" />
+                        Print
+                      </button>
+                      <button onClick={handleNewInvoice} className="btn-secondary">
+                        New Invoice
+                      </button>
+                    </>
+                  ) : (
+                    <>
+                      <button onClick={handlePrint} className="btn-secondary flex items-center gap-2">
+                        <Printer className="h-4 w-4" />
+                        Print Preview
+                      </button>
+                      <button
+                        onClick={handleGenerateInvoice}
+                        disabled={generatingInvoice}
+                        className="btn-primary flex items-center gap-2"
+                      >
+                        {generatingInvoice ? (
+                          <>
+                            <div className="spinner w-4 h-4 border-2" />
+                            Generating...
+                          </>
+                        ) : (
+                          <>
+                            <CheckCircle className="h-4 w-4" />
+                            Generate & Save
+                          </>
+                        )}
+                      </button>
+                    </>
+                  )}
+                </div>
               )}
             </div>
 
@@ -323,9 +316,14 @@ export default function InvoicePage() {
                 </div>
               ) : invoice ? (
                 <div className="max-w-md mx-auto bg-white border rounded-lg p-6 shadow-sm">
-                  {/* Printable Invoice Content */}
+                  {invoiceGenerated && (
+                    <div className="mb-4 p-3 bg-green-50 border border-green-200 rounded-lg flex items-center gap-2 text-green-700">
+                      <CheckCircle className="h-5 w-5" />
+                      <span className="text-sm font-medium">Invoice saved! Orders marked as completed.</span>
+                    </div>
+                  )}
+                  
                   <div ref={printRef}>
-                    {/* Header */}
                     <div className="header text-center mb-6 pb-4 border-b border-dashed border-gray-300">
                       {invoice.restaurant.logo_url && (
                         <img 
@@ -344,17 +342,15 @@ export default function InvoicePage() {
                       )}
                     </div>
 
-                    {/* Invoice Info */}
                     <div className="info mb-4 text-sm">
-                      <p><strong>Invoice:</strong> {invoice.invoice_number}</p>
+                      <p><strong>Invoice:</strong> {invoice.invoice_number || 'PREVIEW'}</p>
                       <p><strong>Table:</strong> {invoice.table.table_number}</p>
-                      <p><strong>Date:</strong> {formatDateTime(invoice.generated_at)}</p>
+                      <p><strong>Date:</strong> {formatDateTime(invoice.generated_at || invoice.created_at || new Date().toISOString())}</p>
                       {invoice.orders.length > 0 && invoice.orders[0].customer_name && (
                         <p><strong>Customer:</strong> {invoice.orders[0].customer_name}</p>
                       )}
                     </div>
 
-                    {/* Items */}
                     <table className="items w-full mb-4">
                       <thead>
                         <tr className="border-b border-gray-300">
@@ -369,21 +365,16 @@ export default function InvoicePage() {
                             <td className="py-2">
                               <span>{item.name}</span>
                               {item.special_requests && (
-                                <span className="block text-xs text-gray-500">
-                                  ({item.special_requests})
-                                </span>
+                                <span className="block text-xs text-gray-500">({item.special_requests})</span>
                               )}
                             </td>
                             <td className="qty text-center py-2">{item.quantity}</td>
-                            <td className="price text-right py-2">
-                              {formatCurrency(item.total_price)}
-                            </td>
+                            <td className="price text-right py-2">{formatCurrency(item.total_price)}</td>
                           </tr>
                         ))}
                       </tbody>
                     </table>
 
-                    {/* Totals */}
                     <div className="totals border-t border-dashed border-gray-300 pt-4">
                       <div className="row flex justify-between mb-2">
                         <span>Subtotal</span>
@@ -401,7 +392,6 @@ export default function InvoicePage() {
                       </div>
                     </div>
 
-                    {/* Footer */}
                     <div className="footer text-center mt-6 pt-4 border-t border-dashed border-gray-300">
                       <p className="text-sm text-gray-600">Thank you for dining with us!</p>
                       <p className="text-xs text-gray-400 mt-1">Please pay at the counter</p>

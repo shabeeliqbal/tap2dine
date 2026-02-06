@@ -156,6 +156,17 @@ export const reportsAPI = {
     api.get('/reports/pdf', { params: { period, startDate, endDate }, responseType: 'blob' }),
 };
 
+// Invoice API
+export const invoicesAPI = {
+  generate: (tableId: number, paymentMethod?: string, notes?: string) =>
+    api.post('/invoices', { tableId, paymentMethod, notes }),
+  getHistory: (params?: { startDate?: string; endDate?: string; limit?: number; offset?: number }) =>
+    api.get('/invoices', { params }),
+  getById: (id: number) => api.get(`/invoices/${id}`),
+  search: (query: string) => api.get('/invoices/search', { params: { q: query } }),
+  getPreview: (tableId: number) => api.get(`/invoices/preview/${tableId}`),
+};
+
 // Staff API
 export const staffAPI = {
   getAll: () => api.get('/staff'),

@@ -13,6 +13,7 @@ const orderRoutes = require('./routes/orders');
 const restaurantRoutes = require('./routes/restaurants');
 const reportsRoutes = require('./routes/reports');
 const staffRoutes = require('./routes/staff');
+const invoiceRoutes = require('./routes/invoices');
 
 // Import database
 const db = require('./config/database');
@@ -50,6 +51,7 @@ app.use('/api/orders', orderRoutes);
 app.use('/api/restaurants', restaurantRoutes);
 app.use('/api/reports', reportsRoutes);
 app.use('/api/staff', staffRoutes);
+app.use('/api/invoices', invoiceRoutes);
 
 // Root route for cPanel health check
 app.get('/', (req, res) => {

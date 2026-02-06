@@ -118,6 +118,32 @@ CREATE TABLE IF NOT EXISTS order_status_history (
     FOREIGN KEY (order_id) REFERENCES orders(id) ON DELETE CASCADE
 );
 
+-- Invoices table (for billing history)
+CREATE TABLE IF NOT EXISTS invoices (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    restaurant_id INT NOT NULL,
+    invoice_number VARCHAR(50) NOT NULL UNIQUE,
+    table_id INT NOT NULL,
+    table_number VARCHAR(20) NOT NULL,
+    order_ids JSON NOT NULL,
+    items JSON NOT NULL,
+    subtotal DECIMAL(10, 2) NOT NULL,
+    tax_percent DECIMAL(5, 2) DEFAULT 0,
+    tax_amount DECIMAL(10, 2) DEFAULT 0,
+    total_amount DECIMAL(10, 2) NOT NULL,
+    customer_name VARCHAR(100),
+    payment_method VARCHAR(50) DEFAULT 'cash',
+    notes TEXT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (restaurant_id) REFERENCES restaurants(id) ON DELETE CASCADE,
+    FOREIGN KEY (table_id) REFERENCES tables(id) ON DELETE CASCADE
+);
+
+-- Indexes for invoices
+CREATE INDEX idx_invoices_restaurant ON invoices(restaurant_id);
+CREATE INDEX idx_invoices_number ON invoices(invoice_number);
+CREATE INDEX idx_invoices_date ON invoices(created_at);
+
 -- Indexes for better query performance
 CREATE INDEX idx_orders_restaurant_date ON orders(restaurant_id, created_at);
 CREATE INDEX idx_orders_status ON orders(status);
